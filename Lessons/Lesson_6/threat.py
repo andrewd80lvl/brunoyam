@@ -1,18 +1,19 @@
-import time
 from threading import Thread
 
+def foo(bar, result, index):
+    print('hello')
+    result[index] = "foo" + str(index)
 
-def start_rocket(number):
-    time.sleep(3)
-    print(f'Rocket № {number} started!\n')
+threads = [None] * 10
+results = [None] * 10
 
+for i in range(len(threads)):
+    threads[i] = Thread(target=foo, args=('world!', results, i))
+    threads[i].start()
 
-threads = [Thread(target=start_rocket, args=(i,)) for i in range(5)]
+# do some other stuff
 
-print(threads)
+for i in range(len(threads)):
+    threads[i].join()
 
-for t in threads:
-    t.start()
-
-#for t in threads:
-#    t.join()
+print(results)
